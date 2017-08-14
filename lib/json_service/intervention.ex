@@ -17,7 +17,7 @@ defmodule JsonService.Intervention do
 
   def new(id, from, to, type, comment) do
     %__MODULE__{
-      id: id,
+      id: to_string(id),
       from: from,
       to: to,
       type: type,
