@@ -39,7 +39,7 @@ http://localhost:8080/api/v1/interventions/USERID
 It is assumed that each intervention has the following format:
 ```json
 {
-  "id": 123,
+  "id": "123",
   "from": 12345,
   "to": 23456,
   "type": "my type",
