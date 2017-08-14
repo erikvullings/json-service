@@ -22,6 +22,10 @@ defmodule JsonService.List do
     GenServer.cast(list, {:add, item})
   end
 
+  def delete(list, id) do
+    GenServer.cast(list, {:delete, id})
+  end
+
   def update(list, item) do
     GenServer.cast(list, {:update, item})
   end
@@ -55,11 +59,22 @@ defmodule JsonService.List do
     {:reply, item, state}
   end
 
+  def handle_cast({:delete, id}, state) do
+    # IO.puts "Add item"
+    # IO.puts inspect item
+    # IO.puts "State"
+    # IO.puts inspect state
+    items = Enum.filter state.items, fn(item) -> item.id != id end
+    state = %{state | items: items }
+    Cache.save(state)
+    {:noreply, state}
+  end
+
   def handle_cast({:add, item}, state) do
-    IO.puts "Add item"
-    IO.puts inspect item
-    IO.puts "State"
-    IO.puts inspect state
+    # IO.puts "Add item"
+    # IO.puts inspect item
+    # IO.puts "State"
+    # IO.puts inspect state
     state = %{state | items: [item | state.items]}
     Cache.save(state)
     {:noreply, state}

@@ -38,18 +38,13 @@ defmodule JsonService.Router do
     # IO.inspect msg # Prints JSON POST body
     userList = Server.find_or_create_list userid
     # IO.inspect userList
-    intervention = Intervention.new(msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+    intervention = if Map.has_key?(msg, "id") do
+      Intervention.new(msg["id"], msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+    else
+      Intervention.new(msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+    end
     JsonService.List.add userList, intervention
     send_resp(conn, status_code(:created), Poison.encode! intervention)
-  end
-
-  put "/api/v1/interventions/:userid" do
-    # IO.puts "User ID: #{userid} is updating"
-    msg = conn.body_params
-    # IO.inspect msg
-    userList = Server.find_list userid
-    JsonService.List.update userList, Intervention.new(msg["id"], msg["from"], msg["to"], msg["type"], msg["comment"] || "")
-    send_resp(conn, status_code(:accepted), "")
   end
 
   get "/api/v1/interventions/:userid/:id" do
@@ -70,6 +65,12 @@ defmodule JsonService.Router do
     userList = Server.find_list userid
     JsonService.List.update userList, Intervention.new(id, msg["from"], msg["to"], msg["type"], msg["comment"] || "")
     send_resp(conn, status_code(:accepted), "")
+  end
+
+  delete "/api/v1/interventions/:userid/:id" do
+    userList = Server.find_list userid
+    JsonService.List.delete userList, id
+    send_resp(conn, status_code(:ok), "")
   end
 
   # post "/upload", do: send_resp(conn, status_code(:created), "Uploaded\n")
