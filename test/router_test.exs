@@ -17,14 +17,14 @@ defmodule JsonService.RouterTest do
     assert conn.status == 200
   end
 
-  test "returns uploaded" do
-    conn = conn(:post, "/upload", "content=#{@content}&mimetype=#{@mimetype}")
-           |> put_req_header("content-type", "application/x-www-form-urlencoded")
-           |> Router.call(@opts)
+  # test "returns uploaded" do
+  #   conn = conn(:post, "/upload", "content=#{@content}&mimetype=#{@mimetype}")
+  #          |> put_req_header("content-type", "application/x-www-form-urlencoded")
+  #          |> Router.call(@opts)
 
-    assert conn.state == :sent
-    assert conn.status == 201
-  end
+  #   assert conn.state == :sent
+  #   assert conn.status == 201
+  # end
 
   test "returns 404" do
     conn = conn(:get, "/missing", "")

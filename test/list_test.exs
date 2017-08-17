@@ -20,14 +20,14 @@ defmodule JsonService.ListTest do
   end
 
   test ".add adds an item to the list", %{list: list} do
-    item = Intervention.new("from", "to", "type", "Create an OTP app")
+    item = Intervention.new("from", "to", "type", "subtype", "Create an OTP app")
 
     List.add(list, item)
     assert List.items(list) == [item]
   end
 
-  test ".update can mark an item complete", %{list: list} do
-    item = Intervention.new("from", "to", "type", "Complete a task")
+  test ".update can update an item", %{list: list} do
+    item = Intervention.new("from", "to", "type", "subtype", "Complete a task")
     List.add(list, item)
 
     # Update the item

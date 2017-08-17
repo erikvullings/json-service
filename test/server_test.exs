@@ -14,9 +14,9 @@ defmodule JsonService.ServerTest do
     end
   end
 
-  test ".add_list adds a new supervised JsonService list" do
-    Server.add_list("Home")
-    Server.add_list("Work")
+  test ".find_or_create_list adds a new supervised JsonService list" do
+    Server.find_or_create_list("Home")
+    Server.find_or_create_list("Work")
 
     counts = Supervisor.count_children(Server)
 
@@ -24,14 +24,14 @@ defmodule JsonService.ServerTest do
   end
 
   test ".find_list gets a list by its name" do
-    Server.add_list("find-by-name")
+    Server.find_or_create_list("find-by-name")
     list = Server.find_list("find-by-name")
 
     assert is_pid(list)
   end
 
   test ".delete_list deletes a list by its name" do
-    Server.add_list("delete-me")
+    Server.find_or_create_list("delete-me")
     list = Server.find_list("delete-me")
 
     Server.delete_list(list)
@@ -41,8 +41,8 @@ defmodule JsonService.ServerTest do
   end
 
   test "mantains state when server restart" do
-    Server.add_list("Home")
-    Server.add_list("Work")
+    Server.find_or_create_list("Home")
+    Server.find_or_create_list("Work")
 
     Server
     |> Process.whereis

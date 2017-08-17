@@ -43,6 +43,7 @@ It is assumed that each intervention has the following format:
   "from": 12345,
   "to": 23456,
   "type": "my type",
+  "subtype": "my subtype",
   "comment": "new comment"
 }
 ```

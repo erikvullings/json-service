@@ -39,9 +39,9 @@ defmodule JsonService.Router do
     userList = Server.find_or_create_list userid
     # IO.inspect userList
     intervention = if Map.has_key?(msg, "id") do
-      Intervention.new(msg["id"], msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+      Intervention.new(msg["id"], msg["from"], msg["to"], msg["type"], msg["subtype"], msg["comment"] || "")
     else
-      Intervention.new(msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+      Intervention.new(msg["from"], msg["to"], msg["type"], msg["subtype"], msg["comment"] || "")
     end
     JsonService.List.add userList, intervention
     send_resp(conn, status_code(:created), Poison.encode! intervention)
@@ -63,7 +63,7 @@ defmodule JsonService.Router do
     msg = conn.body_params
     # IO.inspect msg
     userList = Server.find_list userid
-    JsonService.List.update userList, Intervention.new(id, msg["from"], msg["to"], msg["type"], msg["comment"] || "")
+    JsonService.List.update userList, Intervention.new(id, msg["from"], msg["to"], msg["type"], msg["subtype"], msg["comment"] || "")
     send_resp(conn, status_code(:accepted), "")
   end
 
