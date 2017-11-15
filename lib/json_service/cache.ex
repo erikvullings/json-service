@@ -22,7 +22,6 @@ defmodule JsonService.Cache do
     :ets.delete_all_objects(__MODULE__)
   end
 
-
   ###
   # GenServer API
   ###

@@ -47,6 +47,19 @@ defmodule JsonService.Router do
     send_resp(conn, status_code(:created), Poison.encode! intervention)
   end
 
+  @doc """
+  Gets all users and converts their entries to JSON.
+  """
+  get "/api/v1/interventions" do
+    userLists = Enum.map(Server.lists, fn(userList) ->
+      items = if userList == nil, do: "", else: JsonService.List.items userList
+      IO.inspect items
+    end)
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(status_code(:ok), Poison.encode! userLists)
+  end
+
   get "/api/v1/interventions/:userid/:id" do
     # IO.puts "User ID: #{userid}, getting item with id: #{id}"
     userList = Server.find_list userid

@@ -21,3 +21,4 @@ erl_crash.dump
 
 # REPO specific
 interventions.tab
+interventions.json
